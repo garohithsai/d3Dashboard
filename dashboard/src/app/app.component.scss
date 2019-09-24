@@ -1,0 +1,37 @@
+.app-wrapper {
+    background-color: #f0f6ff;
+    height:  100%;
+    .header {
+        background-color: #222;
+        border-color: #080808;
+        height : 50px;
+        padding-top: 10px;
+    }
+
+    a {
+        color: white;
+        margin: auto;
+        
+    }
+
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+    .sales-details {
+        margin-top: 50px;
+    }
+    .card-padding {
+        margin-left: 100px;
+    margin-right: 100px;
+
+    }
+
+    .graph-padding {
+        margin-right: 80px;
+        margin-top: 90px;
+        margin-left: 10px;  
+    }
+
+}
+
