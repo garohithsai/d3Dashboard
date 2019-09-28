@@ -9,14 +9,14 @@
       <div class="card-body">
         <h4 class="card-title">Gross Sale</h4>
         <p class="card-text">$15.5 M</p>
-        
+
       </div>
     </div>
     <div class="card col-md-2 card-padding">
       <div class="card-body">
         <h4 class="card-title">Net Sales</h4>
         <p class="card-text">$ 2 90 M</p>
-        
+
       </div>
     </div>
     <div class="card col-md-2 card-padding">
@@ -26,7 +26,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="graph-details row">
     <div class="card col-md-6 graph-padding">
       <div class="card-body">
@@ -38,37 +38,39 @@
       <div class="card-body">
         <h4 class="card-title">Net Sales</h4>
         <p class="card-text">$ 2 90 M</p>
-        
+
       </div>
     </div>
   </div>
 
   <div class="graph-details row">
-    <div class="card col-md-2 graph-padding">
+    <div class="card col-md-12">
       <div class="card-body">
-        <h4 class="card-title">Gross Sale</h4>
-        <p class="card-text">$15.5 M</p>
+        <div id="my_dataviz"></div>
+      </div>
+    </div>
+    <div class="card col-md-12 ">
+      <div class="card-body">
+          <select id="charts-view" [(ngModel)]="chartsView" (change)="changeChartView($event)">
+              <option value="single">Single Line Chart</option>
+              <option value="multiple">Multiple Line Chart</option>
+            </select>
+            <div id="my_line_dataviz"></div>
+
       </div>
     </div>
     <div class="card col-md-2 graph-padding">
       <div class="card-body">
         <h4 class="card-title">Net Sales</h4>
         <p class="card-text">$ 2 90 M</p>
-        
+
       </div>
     </div>
     <div class="card col-md-2 graph-padding">
       <div class="card-body">
         <h4 class="card-title">Net Sales</h4>
         <p class="card-text">$ 2 90 M</p>
-        
-      </div>
-    </div>
-    <div class="card col-md-2 graph-padding">
-      <div class="card-body">
-        <h4 class="card-title">Net Sales</h4>
-        <p class="card-text">$ 2 90 M</p>
-        
+
       </div>
     </div>
   </div>

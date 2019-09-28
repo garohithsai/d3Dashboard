@@ -85,7 +85,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/js/lollipop-plugin-structure.js",
+              "src/js/linechart-plugin-structure.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
