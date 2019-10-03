@@ -181,6 +181,16 @@ export class AppComponent implements OnInit {
   setDefaultChart() {
       this.chartsView = 'multiple';
       lineChartD3.actions.drawChart(this.lineChartconfigData, this.multiObj, '#my_line_dataviz');
-    }
+  }
+
+  openNav() {
+       document.getElementById("mySidenav").style.width = "250px";
+       document.getElementById("mySidenav").style.position="fixed";
+  }
+    
+  closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+  }
+      
 
 }

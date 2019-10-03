@@ -35,7 +35,132 @@
 
     .myCircle:hover {
         stroke: green;
-      }
+    }
+    
+    .chart-container {
+        padding: 10px;
+    }
 
 }
+.sidenav {
+ /* height: 100%;
+  width: 0;
+  position: fixed;*/
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 5px;
+  width: 0;
+}
 
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  z-index:100;
+}
+.sidenav .closebtn {
+    position: absolute;
+    top: -20px;
+    right: 5px;
+    font-size: 36px;
+    /* margin-right: 50px;*/
+}
+
+@media screen and (max-height: 450px) {
+}
+.imgCard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+  
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+  
+  button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+  
+   
+  button:hover, a:hover {
+    opacity: 0.7;
+    z-index:100;
+  }
+.headnavbar{
+    float: right;
+    position: inherit;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.navbar-custom-menu{
+    float: right;
+}
+.navbar-nav{
+    float: left;
+    margin: 0;
+}
+.nav{
+    padding-left: 0;
+    list-style: none;
+}
+.navbar-custom-menu > .navbar-nav > li{
+    position: relative;
+    
+}
+.navbar-nav > li{
+    float: left;
+}
+.nav{
+    display: block;
+}
+.profileImg{
+    float: left;
+    width: 30px;
+    height: 30px;
+    border-radius: 39%;
+    margin-right: 10px;
+    margin-top: -16px;
+
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: x-large;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    color:red;
+    } 
+    .fa-caret-up:before {
+        content: "\f0d8";
+        //padding-left: 25px;
+    }
+    .fa-caret-down:before {
+        content: "\f0d7";
+       // padding-left: 10px;
+    } 
+    
