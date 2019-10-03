@@ -1,55 +1,107 @@
+
 <div class="app-wrapper">
   <div class="header">
-    <div class="container-fluid">
-      <a href="#">Data Graph</a>
+      <div class="container-fluid">
+          <a href="#">Data Graph</a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="headnavbar navbar-static-top">   
+    <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <li>
+                <div class="imgCard">
+                    <img src="https://www.anxietyuk.org.uk/wp-content/uploads/2014/01/stress-ball.jpg" class="profileImg">
+                    <div style="margin: 24px 0;">
+                    </div>
+                  </div>
+            </li>
+            <li class="dropdown user user-menu">
+               
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+                    <a href="#">About</a>
+                    <a href="#">Services</a>
+                    <a href="#">Clients</a>
+                    <a href="#">Contact</a>
+                  </div>
+                  <span style="font-size:30px;cursor:pointer;color: aliceblue" (click)="openNav()">&#9776; </span>
+               
+              <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <span class="hidden-xs">Alexander Pierce</span>
+              </a>-->
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div> 
+<!-- <div class="header">
+  <div class="container-fluid">
+    <a href="#">Data Graph</a>
+  </div>
+<div class="imgCard">
+<img src="/w3images/team2.jpg"  style="width:100%">
+<div style="margin: 24px 0;">
+  <a href="#"><i class="fa fa-dribbble"></i></a> 
+  <a href="#"><i class="fa fa-twitter"></i></a>  
+  <a href="#"><i class="fa fa-linkedin"></i></a>  
+  <a href="#"><i class="fa fa-facebook"></i></a> 
+</div>
+</div>-->
+  
+
+  
+</div>
+<div class="sales-details row">
+  <div class="card col-md-2 card-padding">
+    <div class="card-body">
+      <h4 class="card-title">Gross Sale <i class="fa fa-caret-up"></i></h4>
+      
+      <p class="card-text">$15.5 M</p>
+      
     </div>
   </div>
-  <div class="sales-details row">
-    <div class="card col-md-2 card-padding">
-      <div class="card-body">
-        <h4 class="card-title">Gross Sale</h4>
-        <p class="card-text">$15.5 M</p>
-
-      </div>
-    </div>
-    <div class="card col-md-2 card-padding">
-      <div class="card-body">
-        <h4 class="card-title">Net Sales</h4>
-        <p class="card-text">$ 2 90 M</p>
-
-      </div>
-    </div>
-    <div class="card col-md-2 card-padding">
-      <div class="card-body">
-        <h4 class="card-title">Liability</h4>
-        <p class="card-text">$ 1 61 M</p>
-      </div>
+  <div class="card col-md-2 card-padding">
+    <div class="card-body">
+      <h4 class="card-title">Net Sales <i class="fa fa-caret-up"></i></h4>
+      
+      <p class="card-text">$ 2 90 M</p>
+      
     </div>
   </div>
+  <div class="card col-md-2 card-padding">
+    <div class="card-body">
+      <h4 class="card-title">Liability <i class="fa fa-caret-down"></i></h4>
+      
+      <p class="card-text">$ 1 61 M</p>
+    </div>
+  </div>
+</div>
 
+<div class="graph-details row">
+  <div class="card col-md-6 graph-padding">
+    <div class="card-body">
+      <h4 class="card-title">Gross Sale <i class="fa fa-caret-up"></i></h4>
+      
+      <p class="card-text">$15.5 M</p>
+    </div>
+  </div>
+  <div class="card col-md-4 graph-padding">
+    <div class="card-body">
+      <h4 class="card-title">Net Sales <i class="fa fa-caret-up"></i></h4>
+      <p class="card-text">$ 2 90 M</p>
+      
+    </div>
+  </div>
+</div>
+<div class="chart-container">
   <div class="graph-details row">
-    <div class="card col-md-6 graph-padding">
-      <div class="card-body">
-        <h4 class="card-title">Gross Sale</h4>
-        <p class="card-text">$15.5 M</p>
-      </div>
-    </div>
-    <div class="card col-md-4 graph-padding">
-      <div class="card-body">
-        <h4 class="card-title">Net Sales</h4>
-        <p class="card-text">$ 2 90 M</p>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="graph-details row">
-    <div class="card col-md-12">
+    <div class="card col-sm-12 col-md-6">
       <div class="card-body">
         <div id="my_dataviz"></div>
       </div>
     </div>
-    <div class="card col-md-12 ">
+    <div class="card col-sm-12 col-md-6">
       <div class="card-body">
           <select id="charts-view" [(ngModel)]="chartsView" (change)="changeChartView($event)">
               <option value="single">Single Line Chart</option>
@@ -74,4 +126,38 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="graph-details row">
+  <div class="card col-md-2 graph-padding">
+    <div class="card-body">
+      <h4 class="card-title">Gross Sale  <i class="fa fa-caret-up"></i></h4>
+     <p class="card-text">$15.5 M</p>
+    </div>
+  </div>
+  <div class="card col-md-2 graph-padding">
+    <div class="card-body">
+      <h4 class="card-title">Net Sales <i class="fa fa-caret-up"></i></h4>
+      
+      <p class="card-text">$ 2 90 M</p>
+      
+    </div>
+  </div>
+  <div class="card col-md-2 graph-padding">
+    <div class="card-body">
+      <h4 class="card-title">Net Sales <i class="fa fa-caret-up"></i></h4>
+      
+      <p class="card-text">$ 2 90 M</p>
+      
+    </div>
+  </div>
+  <div class="card col-md-2 graph-padding">
+    <div class="card-body">
+      <h4 class="card-title">Net Sales <i class="fa fa-caret-up"></i></h4>
+      
+      <p class="card-text">$ 2 90 M</p>
+      
+    </div>
+  </div>
+</div>
 </div>
