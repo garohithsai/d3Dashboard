@@ -5,7 +5,7 @@ export const  lollipopChartD3 = {
 		getHTML: function () {
 			var uniqId = "lollipop" + Math.floor((Math.random() * 1000) + 1);
 			this.uniqId = uniqId;
-			return '<style>div.tooltip {position: absolute;text-align: center;width: 60px;height: auto;padding: 2px;font: 12px sans-serif;background: lightsteelblue;border: 0px;border-radius: 8px;pointer-events: none;</style><div><select class="listGroup" id="listGrp' + uniqId + '"></select><select id="lollipop-charttype' + uniqId + '"><option value="">Chart Type</option><option value="vertical">Vertical</option><option value="horizontal">Horizontal</option></select><div class="d3-lollipop" id="' + uniqId + '" ></div></div>';
+			return '<style>div.tooltip {padding:5px;min-width:50px;position: absolute;text-align: center;width: auto;height: auto;padding: 2px;font: 12px sans-serif;background: lightsteelblue;border: 0px;border-radius: 8px;pointer-events: none;</style><div><span class="data-set" style="margin-right:10px">Data Set:  <select class="listGroup" id="listGrp' + uniqId + '"></select></span><span class="chart-type">Chart Type: <select id="lollipop-charttype' + uniqId + '"><option value="">Chart Type</option><option value="vertical">Vertical</option><option value="horizontal">Horizontal</option></select></span><div class="d3-lollipop" id="' + uniqId + '" ></div></div>';
 		},
 		getLabelName: function () {
 			return "lollipop D3";
@@ -50,6 +50,11 @@ export const  lollipopChartD3 = {
 		setData: function (propObject, dataObj, id) {
 			console.log('propObject', propObject);
 			console.log('dataObj  ', dataObj);
+			//Defining xField and yField
+			var xField = propObject.fields.xField;
+			var yField = propObject.fields.yField;
+			var xLabel = propObject.labels.xlabel;
+			var yLabel = propObject.labels.ylabel;
 			//setting chart type
 			var charttypeElm = d3.select("#lollipop-charttype" + this.uniqId);
 			charttypeElm.property("value", 'vertical');
@@ -59,11 +64,13 @@ export const  lollipopChartD3 = {
 			//Sorting of data object
 			if (propObject.sortOrder) {
 				dataObj.sort(function(b, a) {   // sorting by value
-				  return a.Value < b.Value;
+				  return a[yField] < b[yField];
 				});
 				dataObj.sort(function(a, b) {   // sorting by country
-				  var cntry1 = a.Country.toUpperCase(); // ignore upper and lowercase
-				  var cntry2 = b.Country.toUpperCase(); // ignore upper and lowercase
+				console.log(a[xField]);
+				console.log(a['country']);
+				  var cntry1 = a[xField].toUpperCase(); // ignore upper and lowercase
+				  var cntry2 = b[xField].toUpperCase(); // ignore upper and lowercase
 				  if (cntry1 < cntry2) {
 					return -1;
 				  }
@@ -81,8 +88,9 @@ export const  lollipopChartD3 = {
 			if (propObject.vertical) {
 				margin = {top: 10, right: 30, bottom: 60, left: 100}
 			}
-			var width = 460 - margin.left - margin.right,
-				height = 500 - margin.top - margin.bottom;
+			var width = parseInt(d3.select('#'+id).style('width'), 10);
+			width = width - margin.left - margin.right;
+			var height = 500 - margin.top - margin.bottom;
 
 			// append the svg object to the body of the page
 			var svg = d3.select("#"+this.uniqId).html("")
@@ -93,7 +101,8 @@ export const  lollipopChartD3 = {
 				.attr("transform",
 					"translate(" + margin.left + "," + margin.top + ")");
 
-			var axisBottom, axisLeft, axis1, axis2;
+			var axisBottom, axisLeft, axis1, axis2, rangeField;
+			rangeField = propObject.rangeField.field;
 			if (propObject.horizontal) {
 				propObject.linear = [ height, 0];
 				propObject.band = [ 0, width ];
@@ -103,19 +112,22 @@ export const  lollipopChartD3 = {
 			}
 			axis1 = d3.scaleBand()
 					  .range(propObject.band)
-					  .domain(dataObj.map(function(d) { return d.Country; }))
+					  .domain(dataObj.map(function(d) { return d[xField]; }))
 					  .padding(1);
 				  
 			axis2 = d3.scaleLinear()
-					  .domain([0, 13000])
+					  .domain([0,d3.extent(dataObj, function(d) { return d[propObject.fields[rangeField]]; })[1]])
 					  .range(propObject.linear);
 			if (propObject.horizontal) {
 				axisLeft = d3.axisLeft(axis2);
 				axisBottom = d3.axisBottom(axis1);
+				xLabel = propObject.labels.xlabel;
+			    yLabel = propObject.labels.ylabel;
 			} else if (propObject.vertical) {
 				axisBottom = d3.axisBottom(axis2);
 				axisLeft = d3.axisLeft(axis1);
-				
+				xLabel = propObject.labels.ylabel;
+			    yLabel = propObject.labels.xlabel;
 			}	
 			
 			svg.append("g")
@@ -132,9 +144,9 @@ export const  lollipopChartD3 = {
 					.data(dataObj)
 					.enter()
 					.append("line")
-					.attr("x1", function (d) { return axis1(d.Country); })
-					.attr("x2", function (d) { return axis1(d.Country); })
-					.attr("y1", function (d) { return axis2(d.Value); })
+					.attr("x1", function (d) { return axis1(d[xField]); })
+					.attr("x2", function (d) { return axis1(d[xField]); })
+					.attr("y1", function (d) { return axis2(d[yField]); })
 					.attr("y2", axis2(0))
 					.attr("stroke", "grey")
 
@@ -143,8 +155,8 @@ export const  lollipopChartD3 = {
 					.data(dataObj)
 					.enter()
 					.append("circle").attr("class","lollipop-circle")
-					.attr("cx", function (d) { return axis1(d.Country); })
-					.attr("cy", function (d) { return axis2(d.Value); })
+					.attr("cx", function (d) { return axis1(d[xField]); })
+					.attr("cy", function (d) { return axis2(d[yField]); })
 					.attr("r", "4")
 					.style("fill", "#69b3a2")
 					.attr("stroke", "black")
@@ -154,10 +166,10 @@ export const  lollipopChartD3 = {
 				  .data(dataObj)
 				  .enter()
 				  .append("line")
-					.attr("x1", function(d) { return axis2(d.Value); })
+					.attr("x1", function(d) { return axis2(d[yField]); })
 					.attr("x2", axis2(0))
-					.attr("y1", function(d) { return axis1(d.Country); })
-					.attr("y2", function(d) { return axis1(d.Country); })
+					.attr("y1", function(d) { return axis1(d[xField]); })
+					.attr("y2", function(d) { return axis1(d[xField]); })
 					.attr("stroke", "grey")
 
 				// Circles
@@ -165,8 +177,8 @@ export const  lollipopChartD3 = {
 				  .data(dataObj)
 				  .enter()
 				  .append("circle").attr("class","lollipop-circle")
-					.attr("cx", function(d) { return axis2(d.Value); })
-					.attr("cy", function(d) { return axis1(d.Country); })
+					.attr("cx", function(d) { return axis2(d[yField]); })
+					.attr("cy", function(d) { return axis1(d[xField]); })
 					.attr("r", "4")
 					.style("fill", "#69b3a2")
 					.attr("stroke", "black")
@@ -182,7 +194,7 @@ export const  lollipopChartD3 = {
 					   div.transition()
 						 .duration(200)
 						 .style("opacity", .9);
-					   div.html(d.Country+ "<br/>" + d.Value)
+					   div.html(d[xField]+ "<br/>" + d[yField])
 						 .style("left", (d3.event.pageX) + "px")
 						 .style("top", (d3.event.pageY - 28) + "px");
 				   }).on("mouseout", function(d) {
@@ -192,12 +204,10 @@ export const  lollipopChartD3 = {
 				   });
 			}
 
-			var xLabel = 'Country';
-			var yLabel = 'Internet Users';
-				  var innerWidth = width - margin.left - margin.right;
-				  var innerHeight = height - margin.bottom - margin.top;
-						
-				  var g = svg.append('g')
+			
+			var innerWidth = width - margin.left - margin.right;
+			var innerHeight = height - margin.bottom - margin.top;
+			var g = svg.append('g')
 				  .attr('transform', `translate(${margin.left},${margin.top})`);
 			  var xAxisG = g.append('g')
 				  .attr('transform', `translate(0, ${innerHeight})`);
@@ -224,6 +234,7 @@ export const  lollipopChartD3 = {
 			var script = document.createElement('script');
 			script.setAttribute('src', src);
 			script.async = false;
+			var newDataObj = dataObj;
 			script.onreadystatechange = script.onload = function () {
 				if (_this.getPluginJsImports().length - 1 == index) {
 					var chartHTML = _this.getHTML();
@@ -237,15 +248,42 @@ export const  lollipopChartD3 = {
 						  delete propObject.horizontal;
 						  propObject[selectedOption] = true;
 						  // run the updateChart function with this selected option
-						  d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function (data) {
+						  /*d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function (data) {
 							_this.setData(propObject, data, _this.uniqId);
-						   });
+						   });*/
+						   _this.setData(propObject, newDataObj, _this.uniqId);
 					  }
 					  
 					})
-					d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function (data) {
+					var dataListElm = d3.select('#listGrp' + _this.uniqId);
+					if (propObject.dataSet && propObject.dataSet.length > 0) {
+						propObject.labels = propObject[propObject.dataSet[0]['value']].labels;
+						propObject.fields = propObject[propObject.dataSet[0]['value']].fields;
+						newDataObj = dataObj[propObject.dataSet[0]['value']];
+						var options = dataListElm.selectAll("option")
+										.data(propObject.dataSet).enter()
+									    .append("option");
+
+					                  options.text(function(d) {
+										return d.text;
+									  }).attr("value", function(d) {
+										return d.value;
+									  });
+						dataListElm.on('change', function(d){
+							var selectedOption = d3.select(this).property("value");
+							propObject.labels = propObject[selectedOption].labels;
+							propObject.fields = propObject[selectedOption].fields;
+							newDataObj = dataObj[selectedOption];
+							_this.setData(propObject, newDataObj, _this.uniqId);
+						})
+					}
+					
+					
+					
+					/*d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function (data) {
 						_this.setData(propObject, data, _this.uniqId);
-					});
+					});*/
+					_this.setData(propObject, newDataObj, _this.uniqId);
 				}
 			};
 			document.getElementsByTagName('head')[0].appendChild(script);

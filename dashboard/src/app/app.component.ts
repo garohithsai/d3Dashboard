@@ -127,15 +127,46 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    const jsonObj = [];
-    const configData = {
-      vertical: true,
-      sortOrder: true,
-      tooltip: true,
-      labels: { xlabel: 'country', ylabel: 'internet Users' }
+    var jsonObj = [];
+    var gdpGrowthRate = [
+                          {country: 'India', gdpgrowth: 7.257},
+                          {country: 'Ethiopia', gdpgrowth: 7.723},
+                          {country: 'Nepal', gdpgrowth: 6.536},
+                          {country: 'Egypt', gdpgrowth: 5.488},
+                          {country: 'Indonesia', gdpgrowth: 5.237},
+                          {country: 'Hungary', gdpgrowth: 3.600}
+                        ];
+    var internetUsers = [{Country: "China", Value: 1131},
+                          {Country: "France", Value: 2162},
+                          {Country: "Germany (FRG)", Value: 1653},
+                          {Country: "Israel", Value: 1263},
+                          {Country: "Italy", Value: 660},
+                          {Country: "Netherlands", Value: 1167},
+                          {Country: "Russia", Value: 6148},
+                          {Country: "Spain", Value: 814},
+                          {Country: "United Kingdom", Value: 1214},
+                          {Country: "United States", Value: 12394}
+                        ]
+    var configData = {
+          horizontal:true,
+          sortOrder: true,
+          tooltip: true,
+          dataSet: [
+                    {text: 'Internet Users', value: 'internetUsers'}, 
+                    {text: 'GDP Growth Rate', value: 'gdpGrowthRate'}
+                   ],
+          internetUsers: {
+              labels: {xlabel: 'Country', ylabel:'Internet Users'},
+              fields: {xField: 'Country', yField: 'Value'}
+          },
+          rangeField: {field: 'yField'},  //must be a number
+          gdpGrowthRate: {
+              labels: {xlabel: 'Country', ylabel: 'GDP Growth'},
+              fields: {xField: 'country', yField: 'gdpgrowth'}
+          }
     };
     this.setDefaultChart();
-    lollipopChartD3.actions.drawChart(configData, jsonObj, '#my_dataviz');
+    lollipopChartD3.actions.drawChart(configData, {gdpGrowthRate: gdpGrowthRate, internetUsers: internetUsers}, '#my_dataviz');
   }
 
   changeChartView(event) {
