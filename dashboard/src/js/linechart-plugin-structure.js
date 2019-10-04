@@ -5,7 +5,7 @@ export const lineChartD3 = {
         getHTML: function () {
             var uniqId = "linechart" + Math.floor((Math.random() * 1000) + 1);
 			this.uniqId = uniqId;
-			return '<div><select class="listGroup" id="listGrp' + uniqId + '"></select><div class="d3-linechart" id="' + uniqId + '" ></div></div>';
+            return '<div class="d3-linechart" id="' + uniqId + '" ></div>';
         },
         getLabelName: function () {
             return "linechart D3";
@@ -51,7 +51,8 @@ export const lineChartD3 = {
 			var xField, yField, xTitle, yTitle, xColor, yColor, xLineColor;
 			var pointsData = [];
 			var margin = propObject.margin;
-			var width = 800 - margin.left - margin.right;
+			var width = parseInt(d3.select('#'+id).style('width'), 10);
+			width = width - margin.left - margin.right;
             var height = 400 - margin.top - margin.bottom;
 			var svg = d3.select('#' + id)
 				.append("svg")
@@ -79,7 +80,6 @@ export const lineChartD3 = {
 					.style("text-decoration", "underline")
 					.text(propObject.chartTitle);
 			}
-
 			var x = d3.scaleLinear()
 				.domain(d3.extent(pointsData, function (d) { return d[xField]; }))
 				.range([0, width]);
@@ -134,7 +134,7 @@ export const lineChartD3 = {
 			if (propObject.backgroundImage) {
 				svg.append("image")
 					.attr("xlink:href", propObject.backgroundImage)
-					.attr("x", 0)
+					.attr("x", 3)
 					.attr("y", 0)
 					.attr("width", width)
 					.attr("height", height)
@@ -238,9 +238,9 @@ export const lineChartD3 = {
                 function idled() { idleTimeout = null; }
 				function updateChart() {
 
-					var selectedName = d3.select(".listGroup").property("value");
+					//var selectedName = d3.select(".listGroup").property("value");
 					// What are the selected boundaries?
-					extent = d3.event.selection
+					var extent = d3.event.selection
 
 					// If no selection, back to initial coordinate. Otherwise, update X axis domain
 					if (!extent) {
@@ -253,20 +253,20 @@ export const lineChartD3 = {
 					// Update axis and line position
 					xAxis.transition().duration(1000).call(d3.axisBottom(x))
 					line
-						.select('.line')
+						.selectAll('.line')
 						.transition()
 						.duration(1000)
 						.attr("d", d3.line()
-							.x(function (d) { return x(d.time) })
-							.y(function (d) { return y(d.valueA) })
+							.x(function (d) { return x(+d[xField]) })
+							.y(function (d) { return y(+d[yField]) })
 						)
 
 					dot
-						.data(dataObj[0])
+						.data(pointsData)
 						.transition()
 						.duration(1000)
-						.attr("cx", function (d) { return x(+d.time) })
-						.attr("cy", function (d) { return y(+ d[selectedName] || d.value) });
+						.attr("cx", function (d) { return x(+d[xField]) })
+						.attr("cy", function (d) { return y(+d[yField]) });
 
 				}
 			}
